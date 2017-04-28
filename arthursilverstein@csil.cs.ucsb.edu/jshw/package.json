@@ -1,0 +1,12 @@
+{
+  "name": "jshw",
+  "version": "1.0.0",
+  "description": "Javascript implementations of CS130A programming assignments",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Arthur Silverstein",
+  "license": "ISC"
+}
