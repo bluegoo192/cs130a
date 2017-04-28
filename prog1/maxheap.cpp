@@ -10,6 +10,9 @@ void printVector(std::ostream& str, std::vector<int> target) {
 int MaxHeap::left(int index) const {
     return (2*index)+1;
 }
+int MaxHeap::getSize() {
+    return data.size();
+}
 int MaxHeap::right(int index) const {
     return (2*index)+2;
 }

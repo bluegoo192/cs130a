@@ -20,6 +20,7 @@ class MaxHeap {
         bool insert(int item);//return true if successful
         int getMax() const;//return the largest item in the heap
         int deleteMax();//delete the largest item and return it
+        int getSize();
         bool deleteItem(int item);//return true if successful
         int get(int index) const;//get the element at an index
         void print(std::ostream& str);

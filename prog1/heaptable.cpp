@@ -22,6 +22,10 @@ bool HeapTable::lookup(int item) {
 }
 
 int HeapTable::deleteMax() {
+    if (heap->getSize() < 1) {
+        std::cout << "error\n";
+        return 0;
+    }
     int max = heap->deleteMax();
     table->deleteItem(max);
     std::cout << max << std::endl;
