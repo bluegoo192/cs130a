@@ -1,7 +1,7 @@
 #!/bin/bash
 
 make
-TESTDIR="./test/"   # change it to your directory
+TESTDIR="./realtest/"   # change it to your directory
 
 for i in `ls $TESTDIR/*.in`
 do

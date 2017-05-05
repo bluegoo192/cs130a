@@ -1,6 +1,7 @@
 #include "hashtable.h"
 
 unsigned int HashTable::hash(int item) {
+    if (item < 0) { item = -item; }
     return item%97;//stub
 }
 
