@@ -1,5 +1,6 @@
 #include "linkedlist.h"
 #include <vector>
+#include <ostream>
 
 class HashTable {
 
