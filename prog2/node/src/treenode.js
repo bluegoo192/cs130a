@@ -1,5 +1,6 @@
-function Node(data) {
+function Node(data, parent) {
     this.data = data;
+    this.parent = parent;
     this.setLeft = function(child) {
         this.left = new Node(child);
     }
@@ -13,7 +14,25 @@ function Node(data) {
 }
 
 Node.prototype.splay = function() {
-    console.log("splaying "+this.data);
+    //console.log("splaying "+this.data);
+}
+
+Node.prototype.verify = function() {
+    //ONLY VERIFIES THE CURRENT NODE.  DOES NOT CHECK CHILDREN
+    var correct = true
+    if (!(typeof this.left === 'undefined' || this.left === null)) {
+        if (this.left.data >= this.data) {
+            correct = false;
+            console.log("Something's wrong. left("+this.left.data+") >= data("+this.data+")");
+        }
+    }
+    if (!(typeof this.right === 'undefined' || this.right === null)) {
+        if (this.right.data <= this.data) {
+            correct = false;
+            console.log("Something's wrong. right("+this.right.data+") <= data("+this.data+")");
+        }
+    }
+    return correct;
 }
 
 Node.prototype.access = function(target) {
@@ -31,11 +50,12 @@ Node.prototype.access = function(target) {
 }
 
 Node.prototype.insert = function(item) {
-    var target = ((item > this.data) ? this.right : this.left);
-    if (typeof target === 'undefined' || target === null) { //if we reach null
-        target = new Node(item);
+    if (this.access(item) !== null) return false;
+    var target = ((item > this.data) ? 'right' : 'left');
+    if (typeof this[target] === 'undefined' || target === null) { //if we reach null
+        this[target] = new Node(item);
     } else {
-        target.insert(item);
+        this[target].insert(item);
     }
 }
 
