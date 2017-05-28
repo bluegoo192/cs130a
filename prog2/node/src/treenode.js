@@ -53,10 +53,15 @@ Node.prototype.insert = function(item) {
     if (this.access(item) !== null) return false;
     var target = ((item > this.data) ? 'right' : 'left');
     if (typeof this[target] === 'undefined' || target === null) { //if we reach null
-        this[target] = new Node(item);
+        this[target] = new Node(item, this);
     } else {
         this[target].insert(item);
     }
+}
+
+Node.prototype.rotate = function() {
+    //simple rotation
+    this.
 }
 
 module.exports = Node;
