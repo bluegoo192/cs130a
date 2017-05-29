@@ -1,6 +1,6 @@
 var exists = require('./exists.js');
 
-function Node(data, parent = null) {
+function Node(data, parent) {
     this.data = data;
     this.parent = parent;
     this.setLeft = function(child) {
