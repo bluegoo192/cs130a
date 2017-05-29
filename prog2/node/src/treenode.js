@@ -13,10 +13,6 @@ function Node(data, parent = null) {
     }
 }
 
-Node.prototype.splay = function() {
-    //console.log("splaying "+this.data);
-}
-
 Node.prototype.verify = function() {
     //ONLY VERIFIES THE CURRENT NODE.  DOES NOT CHECK CHILDREN
     var correct = true
@@ -58,7 +54,10 @@ Node.prototype.insert = function(item) {
         this[target].insert(item);
     }
 }
-Node.prototype.rotate = function(childstr) {
+//rotate with a child
+//this is a really bad function -- make sure to assign the returned value or you're screwed
+//todo: fix
+Node.prototype.rotateChild = function(childstr) {
     //call this method on the parent; child is the node to rotate
     //childstr is either 'left' or 'right'
     //this method does modify other nodes directly, but returns a new tree
@@ -85,6 +84,31 @@ Node.prototype.rotate = function(childstr) {
     root[otherside] = otherchild;
     otherchild.parent = root;
     return root;
+}
+
+//rotate the current node upwards
+//unlike rotateChild, this does the operation in-place
+Node.prototype.rotateUp = function() {
+    if (typeof this.parent == 'undefined' || this.parent === null) return;
+    if (this === this.parent.left) {
+        this.parent = this.parent.rotateChild('left');
+    } else if (this === this.parent.right) {
+        this.parent = this.parents.rotateChild('right');
+    } else {
+        console.log("ERROR: something wrong with node.rotateUp");
+    }
+}
+
+Node.prototype.splay = function() {
+    return;
+    if (typeof this.parent == 'undefined' || this.parent === null) return;//if root
+    if (typeof this.parent.parent == 'undefined' || this.parent.parent === null) {
+        //case 1: parent is root
+        this.rotateUp();//rotate the child upwards
+        return;
+    } else {
+        console.log("looks like you're trying to splay. not implemented yet");
+    }
 }
 
 module.exports = Node;
