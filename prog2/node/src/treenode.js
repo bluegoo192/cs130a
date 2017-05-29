@@ -60,23 +60,23 @@ Node.prototype.insert = function(item) {
 //rotate the current node upwards
 //unlike rotateChild, this does the operation in-place
 Node.prototype.rotateUp = function() {
-    if (typeof this.parent === 'undefined' || this.parent === null) return;//return if root
+    //return if root
+    if (!exists(this.parent)) return;
     var newChild = new Node(this.parent.data, this);
-    if (this.isLeftChild()) {
-        //rotate left
+    if (this.isLeftChild()) {   //rotate left
         newChild.left = this.right;
         newChild.right = this.parent.right;
         if (exists(newChild.left)) newChild.left.parent = newChild;
         this.right = newChild;
-    } else if (this.isRightChild()) {
-        //rotate right
+    } else if (this.isRightChild()) {   //rotate right
         newChild.right = this.left;
         newChild.left = this.parent.left;
         if (exists(newChild.right)) newChild.right.parent = newChild;
         this.left = newChild;
     } else {
         //we've got a serious error -- this isn't a left OR right child???
-        console.log("SERIOUS WTF ERROR IN ROTATEUP")
+        console.log("SERIOUS WTF ERROR IN ROTATEUP");
+        console.log(this.isLeftChild +" "+this.isRightChild)
         return;
     }
     var grandparent = this.parent.parent;
@@ -85,14 +85,20 @@ Node.prototype.rotateUp = function() {
 }
 
 Node.prototype.splay = function() {
-    return;
     if (typeof this.parent == 'undefined' || this.parent === null) return;//if root
     if (typeof this.parent.parent == 'undefined' || this.parent.parent === null) {
         //case 1: parent is root
         this.rotateUp();//rotate the child upwards
         return;
+    } else if ( (this.isLeftChild() && this.parent.isLeftChild()) ||
+                (this.isRightChild() && this.parent.isRightChild()) ) {
+        //case 2: parent is not root, x and parent are on the same side
+        this.parent.rotateUp();
+        this.rotateUp();
     } else {
-        console.log("looks like you're trying to splay. not implemented yet");
+        //case 3: parent isn't root, x and parent on different sides
+        this.rotateUp();
+        this.parent.rotateUp();
     }
 }
 

@@ -6,4 +6,3 @@ var verify = require('./tests/verify.js');
 
 var tree = new Splaytree();
 var node = new Treenode(5);
-var tn = make(100);
