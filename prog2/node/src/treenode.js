@@ -1,3 +1,5 @@
+var exists = require('./exists.js');
+
 function Node(data, parent = null) {
     this.data = data;
     this.parent = parent;
@@ -19,7 +21,17 @@ function Node(data, parent = null) {
         if (typeof this.parent === 'undefined' || this.parent === null) return false;
         return (this === this.parent.right);
     }
+    this.setTo = function(node) {
+        this.parent = node.parent;
+        this.data = node.data;
+        this.left = node.left;
+        if (exists(this.left)) this.left.parent = this;
+        this.right = node.right;
+        if (exists(this.right)) this.right.parent = this;
+    }
 }
+
+
 
 Node.prototype.access = function(target) {
     if (this.data === target) { //if we reached our target
@@ -44,65 +56,32 @@ Node.prototype.insert = function(item) {
         this[target].insert(item);
     }
 }
-//rotate with a child
-//this is a really bad function -- make sure to assign the returned value or you're screwed
-//todo: fix
-/*Node.prototype.rotateChild = function(childstr) {
-    //call this method on the parent; child is the node to rotate
-    //childstr is either 'left' or 'right'
-    //this method does modify other nodes directly, but returns a new tree
-    if (childstr !== 'left' && childstr !== 'right') {//check params
-        console.log("Something's wrong.  Node.rotate called with bad parameter, should be left or right");
-        return null;
-    }
-    if (typeof this[childstr] === 'undefined' || this[childstr] === null) return this;
-    var otherside = ((childstr === 'left') ? 'right' : 'left');
-    var root = new Node(this[childstr].data, this.parent);//create a new root
-    root[childstr] = this[childstr][childstr];
-    if (!(typeof root[childstr] === 'undefined' || root[childstr] === null)) {
-        root[childstr].parent = root;
-    }
-    var otherchild = new Node(this.data, root);
-    otherchild[otherside] = this[otherside];
-    if (!(typeof otherchild[otherside] === 'undefined' || otherchild[otherside] === null)) {
-        otherchild[otherside].parent = otherchild;
-    }
-    otherchild[childstr] = this[childstr][otherside];
-    if (!(typeof otherchild[childstr] === 'undefined' || otherchild[childstr] === null)) {
-        otherchild[childstr].parent = otherchild;
-    }
-    root[otherside] = otherchild;
-    otherchild.parent = root;
-    return root;
-}*/
 
 //rotate the current node upwards
 //unlike rotateChild, this does the operation in-place
 Node.prototype.rotateUp = function() {
     if (typeof this.parent === 'undefined' || this.parent === null) return;//return if root
-    if (this.parent.isLeftChild()) var refToParent = 'left';
-    if (this.parent.isRightChild()) var refToParent = 'right';
     var newChild = new Node(this.parent.data, this);
     if (this.isLeftChild()) {
         //rotate left
         newChild.left = this.right;
-        newChild.left.parent = newChild;
+        newChild.right = this.parent.right;
+        if (exists(newChild.left)) newChild.left.parent = newChild;
         this.right = newChild;
     } else if (this.isRightChild()) {
         //rotate right
         newChild.right = this.left;
-        newChild.right.parent = newChild;
+        newChild.left = this.parent.left;
+        if (exists(newChild.right)) newChild.right.parent = newChild;
         this.left = newChild;
     } else {
         //we've got a serious error -- this isn't a left OR right child???
         console.log("SERIOUS WTF ERROR IN ROTATEUP")
         return;
     }
-    this.parent = this.parent.parent;//assign parent reference to grandparent
-    if (!(typeof this.parent === 'undefined' || this.parent === null)) {
-        //if our new parent exists, update it's reference to this
-        this.parent[refToParent] = this;
-    }
+    var grandparent = this.parent.parent;
+    this.parent.setTo(this);
+    this.parent = grandparent;
 }
 
 Node.prototype.splay = function() {
