@@ -47,7 +47,7 @@ Node.prototype.insert = function(item) {
 //rotate with a child
 //this is a really bad function -- make sure to assign the returned value or you're screwed
 //todo: fix
-Node.prototype.rotateChild = function(childstr) {
+/*Node.prototype.rotateChild = function(childstr) {
     //call this method on the parent; child is the node to rotate
     //childstr is either 'left' or 'right'
     //this method does modify other nodes directly, but returns a new tree
@@ -74,18 +74,34 @@ Node.prototype.rotateChild = function(childstr) {
     root[otherside] = otherchild;
     otherchild.parent = root;
     return root;
-}
+}*/
 
 //rotate the current node upwards
 //unlike rotateChild, this does the operation in-place
 Node.prototype.rotateUp = function() {
-    if (typeof this.parent == 'undefined' || this.parent === null) return;
-    if (this === this.parent.left) {
-        this.parent = this.parent.rotateChild('left');
-    } else if (this === this.parent.right) {
-        this.parent = this.parents.rotateChild('right');
+    if (typeof this.parent === 'undefined' || this.parent === null) return;//return if root
+    if (this.parent.isLeftChild()) var refToParent = 'left';
+    if (this.parent.isRightChild()) var refToParent = 'right';
+    var newChild = new Node(this.parent.data, this);
+    if (this.isLeftChild()) {
+        //rotate left
+        newChild.left = this.right;
+        newChild.left.parent = newChild;
+        this.right = newChild;
+    } else if (this.isRightChild()) {
+        //rotate right
+        newChild.right = this.left;
+        newChild.right.parent = newChild;
+        this.left = newChild;
     } else {
-        console.log("ERROR: something wrong with node.rotateUp");
+        //we've got a serious error -- this isn't a left OR right child???
+        console.log("SERIOUS WTF ERROR IN ROTATEUP")
+        return;
+    }
+    this.parent = this.parent.parent;//assign parent reference to grandparent
+    if (!(typeof this.parent === 'undefined' || this.parent === null)) {
+        //if our new parent exists, update it's reference to this
+        this.parent[refToParent] = this;
     }
 }
 
