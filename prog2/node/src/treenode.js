@@ -11,6 +11,14 @@ function Node(data, parent = null) {
     if (typeof this.data === 'undefined' || this.data === null) {
         console.log("something is terribly wrong, we have a node with no data");
     }
+    this.isLeftChild = function() {
+        if (typeof this.parent === 'undefined' || this.parent === null) return false;
+        return (this === this.parent.left);
+    }
+    this.isRightChild = function() {
+        if (typeof this.parent === 'undefined' || this.parent === null) return false;
+        return (this === this.parent.right);
+    }
 }
 
 Node.prototype.verify = function() {
