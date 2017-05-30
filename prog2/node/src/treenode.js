@@ -84,7 +84,7 @@ Node.prototype.rotateUp = function() {
     this.parent = grandparent;
 }
 
-Node.prototype.splay = function() {
+Node.prototype.splayOnce = function() {
     if (typeof this.parent == 'undefined' || this.parent === null) return;//if root
     if (typeof this.parent.parent == 'undefined' || this.parent.parent === null) {
         //case 1: parent is root
@@ -99,6 +99,12 @@ Node.prototype.splay = function() {
         //case 3: parent isn't root, x and parent on different sides
         this.rotateUp();
         this.parent.rotateUp();
+    }
+}
+
+Node.prototype.splay = function() {
+    while (exists(this.parent)) {
+        this.splayOnce();
     }
 }
 
