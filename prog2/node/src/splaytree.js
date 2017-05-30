@@ -7,9 +7,23 @@ function Splaytree() {
             this.root = new Node(data, null);
             this.largest = data;
             return "item "+data+" inserted";
-        } else {//if we have data in the tree
+        } else if (!exists(this.root.access(data))) {//if we have data in the tree
             if (data > this.largest) this.largest = data;
-            
+            var branches = this.split(data, this);
+            this.root = new Node(data, null);
+            if (exists(branches[0])) {
+                var side = ((branches[0].data > data) ? 'right' : 'left');
+                this.root[side] = branches[0];
+                this.root[side].parent = this.root;
+            }
+            if (exists(branches[1])) {
+                var side = ((branches[1].data > data) ? 'right' : 'left');
+                this.root[side] = branches[1];
+                this.root[side].parent = this.root;
+            }
+            return "item "+data+" inserted";
+        } else {
+            return "item "+data+" not inserted ; already present";
         }
     }
     this.split = function(i, t) {
@@ -19,7 +33,7 @@ function Splaytree() {
         var side = ((t.root.data > i) ? 'left' : 'right');
         both = [t.root[side], t.root];
         t.root[side] = null;
-        both[0].parent = null;
+        if (exists(both[0])) both[0].parent = null;
         return both;
     }
     this.access = function(i) {
