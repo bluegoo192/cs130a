@@ -53,6 +53,16 @@ function Splaytree() {
     this.print = function() {
         if (exists(this.root)) this.root.print();
     }
+    this.join = function(t1, t2) {
+        t1.access(t1.largest);
+        if (t1.root.data >= t2.root.data || !exists(t1.root) || !exists(t2.root)) {
+            console.log('error: bad parameters for tree.join');
+            return null;
+        }
+        t1.root.right = t2.root;
+        t1.largest = t2.largest;
+        return t1;
+    }
 }
 
 module.exports = Splaytree
