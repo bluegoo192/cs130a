@@ -66,30 +66,32 @@ Node.prototype.rotateUp = function() {
     if (this.isLeftChild()) {   //rotate left
         newChild.left = this.right;
         newChild.right = this.parent.right;
-        if (exists(newChild.left)) newChild.left.parent = newChild;
         this.right = newChild;
     } else if (this.isRightChild()) {   //rotate right
         newChild.right = this.left;
         newChild.left = this.parent.left;
-        if (exists(newChild.right)) newChild.right.parent = newChild;
         this.left = newChild;
     } else {
         //we've got a serious error -- this isn't a left OR right child???
         console.log("SERIOUS WTF ERROR IN ROTATEUP");
-        console.log(this.isLeftChild +" "+this.isRightChild)
+        console.log(this.isLeftChild() +" "+this.isRightChild())
+        console.log(this.parent)
         return;
     }
+    if (exists(newChild.left)) newChild.left.parent = newChild;
+    if (exists(newChild.right)) newChild.right.parent = newChild;
     var grandparent = this.parent.parent;
     this.parent.setTo(this);
-    this.parent = grandparent;
+    this.parent.parent = grandparent;
+    //console.log("rotated up.  new this: ")
+    //console.log(this);
 }
 
 Node.prototype.splayOnce = function() {
-    if (typeof this.parent == 'undefined' || this.parent === null) return;//if root
+    if (typeof this.parent == 'undefined' || this.parent === null) return false;//if root
     if (typeof this.parent.parent == 'undefined' || this.parent.parent === null) {
         //case 1: parent is root
         this.rotateUp();//rotate the child upwards
-        return;
     } else if ( (this.isLeftChild() && this.parent.isLeftChild()) ||
                 (this.isRightChild() && this.parent.isRightChild()) ) {
         //case 2: parent is not root, x and parent are on the same side
@@ -100,12 +102,12 @@ Node.prototype.splayOnce = function() {
         this.rotateUp();
         this.parent.rotateUp();
     }
+    return true;
 }
 
 Node.prototype.splay = function() {
-    while (exists(this.parent)) {
-        this.splayOnce();
-    }
+    var shouldcontinue = this.splayOnce();
+    if (shouldcontinue) this.parent.splay();
 }
 
 module.exports = Node;

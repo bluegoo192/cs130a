@@ -9,16 +9,17 @@ function Splaytree() {
             return "item "+data+" inserted";
         } else {//if we have data in the tree
             if (data > this.largest) this.largest = data;
-            this.root.insert(data);//todo: replace
+            
         }
     }
-    this.split(i, t) {
+    this.split = function(i, t) {
         var both = [];
         if (!exists(t.root)) return null;
         t.access(i);
         var side = ((t.root.data > i) ? 'left' : 'right');
         both = [t.root[side], t.root];
         t.root[side] = null;
+        both[0].parent = null;
         return both;
     }
     this.access = function(i) {
