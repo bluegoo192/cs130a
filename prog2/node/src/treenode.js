@@ -110,4 +110,26 @@ Node.prototype.splay = function() {
     if (shouldcontinue) this.parent.splay();
 }
 
+Node.prototype.print = function() {
+    var q = new Array();
+    q.unshift(this);
+    var current = {};
+    var counter = 2;
+    var str = "";
+    while (q.length > 0) {
+        current = q.pop();
+        str = str + current.data;
+        if (counter && (counter & (counter - 1)) === 0) {
+            console.log(str);
+            str = "";
+        } else { str = str + ", "; }
+        if (exists(current.left)) q.unshift(current.left);
+        if (exists(current.right)) q.unshift(current.right);
+        counter += 1;
+    }
+    str = str.slice(0, -2);
+    console.log(str);
+    return;
+}
+
 module.exports = Node;

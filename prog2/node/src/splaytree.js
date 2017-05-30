@@ -50,6 +50,9 @@ function Splaytree() {
             return "item "+i+" not found";
         }
     }
+    this.print = function() {
+        if (exists(this.root)) this.root.print();
+    }
 }
 
 module.exports = Splaytree
