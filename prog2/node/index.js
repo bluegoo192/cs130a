@@ -1,7 +1,19 @@
-var splaytree = require('./src/splaytree.js');
-var treenode = require('./src/treenode.js');
+var Splaytree = require('./src/splaytree.js');
+var Treenode = require('./src/treenode.js');
+var readline = require('readline');
 
-var tree = new splaytree();
-tree.insert(4);
+var rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+});
 
-console.log(JSON.stringify(tree));
+var tree = new Splaytree();
+
+rl.on('line', function(line) {
+    var words = line.split(" ");
+    if (words[0] === "insert") console.log(tree.insert(parseInt(words[1], 10)));
+    if (words[0] === "find") console.log(tree.find(parseInt(words[1], 10)));
+    if (words[0] === "delete") console.log(tree.delete(parseInt(words[1], 10)));
+    if (words[0] === "print") tree.print();
+})
