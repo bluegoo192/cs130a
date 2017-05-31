@@ -104,7 +104,7 @@ tree.delete(5)
 tree.delete(12)
 tree.delete(19)
 tree.find(26)
-tree.find(46)
+//tree.find(46)
 tree.print()
 
 //tree.find(33)
