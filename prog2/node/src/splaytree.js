@@ -54,14 +54,39 @@ function Splaytree() {
         if (exists(this.root)) this.root.print();
     }
     this.join = function(t1, t2) {
+        if (!exists(t1.root)) return t2;
+        if (!exists(t2.root)) return t1;
         t1.access(t1.largest);
-        if (t1.root.data >= t2.root.data || !exists(t1.root) || !exists(t2.root)) {
-            console.log('error: bad parameters for tree.join');
-            return null;
-        }
         t1.root.right = t2.root;
         t1.largest = t2.largest;
         return t1;
+    }
+    this.delete = function(i) {
+        if (!exists(this.root)) return "item "+i+" not deleted ; not present";
+        if (!exists(this.root.access(i))) return "item "+i+" not deleted ; not present";
+        var subtree1 = new Splaytree();
+        subtree1.root = this.root.left;
+        if (exists(subtree1.root)) subtree1.root.parent = null;
+        subtree1.largest = subtree1.findLargest();
+        var subtree2 = new Splaytree();
+        subtree2.root = this.root.right;
+        if (exists(subtree2.root)) subtree2.root.parent = null;
+        subtree2.largest = subtree2.findLargest();
+        var newtree = this.join(subtree1, subtree2);
+        this.root = newtree.root;
+        this.largest = newtree.largest;
+        return "item "+i+" deleted";
+
+    }
+    this.findLargest = function() {
+        if (!exists(this.root)) return null;
+        var current = this.root;
+        var largest = 0;
+        while (exists(current)) {
+            largest = current.data;
+            current = current.right;
+        }
+        return largest;
     }
 }
 
