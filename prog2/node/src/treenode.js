@@ -45,6 +45,7 @@ Node.prototype.access = function(target) {
     } else {
         return next.access(target);//otherwise, recurse onwards
     }
+    //tree.root.right.left.right.left.left.data
 }
 
 Node.prototype.insert = function(item) {
@@ -90,8 +91,10 @@ Node.prototype.rotateUp = function() {
 Node.prototype.splayOnce = function() {
     //console.log("--splayOnce: this is "+this.data+" ; this.parent is "+this.parent)
     if (typeof this.parent == 'undefined' || this.parent === null) return false;//if root
+    //console.log("splayOnce.  this is "+this.data+" ; this.parent is "+this.parent.data)
     if (typeof this.parent.parent == 'undefined' || this.parent.parent === null) {
         //case 1: parent is root
+        //console.log("splaying case 1.  this is "+this.data+" ; parent is "+this.parent.data);
         this.rotateUp();//rotate the child upwards
     } else if ( (this.isLeftChild() && this.parent.isLeftChild()) ||
                 (this.isRightChild() && this.parent.isRightChild()) ) {
@@ -140,7 +143,7 @@ Node.prototype.print = function() {
             current = q.pop();
             str = str + current.data;
             if (i === count-1) {
-                console.log(str);
+                if (str.length > 0) console.log(str);
                 str = "";
             } else { str = str + ", "; }
             if (exists(current.left)) q.unshift(current.left);
@@ -149,7 +152,7 @@ Node.prototype.print = function() {
         }
     }
     str = str.slice(0, -2);
-    console.log(str);
+    if (str.length > 0) console.log(str);
     return;
 }
 

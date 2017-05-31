@@ -58,6 +58,7 @@ function Splaytree() {
         if (!exists(t2.root)) return t1;
         t1.access(t1.largest);
         t1.root.right = t2.root;
+        if (exists(t1.root.right)) t1.root.right.parent = t1.root;
         t1.largest = t2.largest;
         return t1;
     }

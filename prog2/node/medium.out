@@ -61,7 +61,7 @@ item 39 deleted
 item 9 found
 item 2 deleted
 item 25 found
-item 34 not found
+item 34 found
 item 50 deleted
 item 11 deleted
 item 27 found
@@ -73,8 +73,8 @@ item 31 found
 item 40 deleted
 item 43 deleted
 item 29 found
-item 33 not deleted ; not present
-item 20 not deleted ; not present
+item 33 deleted
+item 20 deleted
 item 7 deleted
 item 10 found
 item 13 found
@@ -85,7 +85,7 @@ item 32 found
 item 22 deleted
 item 14 found
 item 38 found
-item 4 not found
+item 4 found
 item 30 deleted
 item 42 found
 item 18 found
@@ -93,17 +93,16 @@ item 48 deleted
 item 16 deleted
 item 45 found
 item 36 found
-item 5 not deleted ; not present
+item 5 deleted
 item 12 deleted
 item 19 deleted
 item 26 found
 item 46 found
-9
-8, 46
-26, 47
-19, 36, 49
-13, 22, 30, 45
-14, 25, 27, 32, 42
-15, 23, 29, 31, 41, 43
-18, 24, 38, 44
-
+46
+36, 47
+26, 45
+18, 27, 38
+10, 25, 31, 42
+6, 15, 29, 34, 44
+4, 8, 14, 32
+3, 9, 13
