@@ -74,8 +74,8 @@ Node.prototype.rotateUp = function() {
     } else {
         //we've got a serious error -- this isn't a left OR right child???
         console.log("SERIOUS WTF ERROR IN ROTATEUP");
-        console.log(this.isLeftChild() +" "+this.isRightChild())
-        console.log(this.parent)
+        console.log("this: "+this.data+" ; parent: "+this.parent.data);
+        console.log("parent.left: "+this.parent.left+" ; parent.right: "+this.parent.right)
         return;
     }
     if (exists(newChild.left)) newChild.left.parent = newChild;
@@ -88,6 +88,7 @@ Node.prototype.rotateUp = function() {
 }
 
 Node.prototype.splayOnce = function() {
+    //console.log("--splayOnce: this is "+this.data+" ; this.parent is "+this.parent)
     if (typeof this.parent == 'undefined' || this.parent === null) return false;//if root
     if (typeof this.parent.parent == 'undefined' || this.parent.parent === null) {
         //case 1: parent is root
@@ -95,18 +96,34 @@ Node.prototype.splayOnce = function() {
     } else if ( (this.isLeftChild() && this.parent.isLeftChild()) ||
                 (this.isRightChild() && this.parent.isRightChild()) ) {
         //case 2: parent is not root, x and parent are on the same side
+        //console.log("  about to rotate parent up");
+        //console.log("    this is "+this.data+" ; this.parent is "+this.parent.data);
         this.parent.rotateUp();
+        //console.log("  about to rotate this up");
+        //console.log("    this is "+this.data+" ; this.parent is "+this.parent.data);
         this.rotateUp();
+        //console.log("  finished. this is "+this.data+" ; this.parent is "+this.parent.data);
     } else {
         //case 3: parent isn't root, x and parent on different sides
+        //console.log("  about to rotate this up");
+        //console.log("    this is "+this.data+" ; this.parent is "+this.parent.data);
         this.rotateUp();
-        this.parent.rotateUp();
+        //console.log("  about to rotate parent up");
+        //console.log("    this is "+this.data+" ; this.parent is "+this.parent.data);
+        this.parent.parent.rotateUp();
+        //console.log("  finished. this is "+this.data+" ; this.parent is "+this.parent.data);
+
     }
     return true;
+    //tree.root.right.left.right.data
 }
 
 Node.prototype.splay = function() {
     var shouldcontinue = this.splayOnce();
+    /*if (exists(this.parent)) {
+        console.log("---splayed once.  about to splay "+this.parent.data);
+        if (exists(this.parent.parent)) console.log(" |-parent of what we're about to splayOnce is "+this.parent.parent.data)
+    }*/
     if (shouldcontinue) this.parent.splay();
 }
 
@@ -116,16 +133,20 @@ Node.prototype.print = function() {
     var current = {};
     var counter = 2;
     var str = "";
+    var count = 0;
     while (q.length > 0) {
-        current = q.pop();
-        str = str + current.data;
-        if (counter && (counter & (counter - 1)) === 0) {
-            console.log(str);
-            str = "";
-        } else { str = str + ", "; }
-        if (exists(current.left)) q.unshift(current.left);
-        if (exists(current.right)) q.unshift(current.right);
-        counter += 1;
+        count = q.length;
+        for (var i=0; i<count; i++) {
+            current = q.pop();
+            str = str + current.data;
+            if (i === count-1) {
+                console.log(str);
+                str = "";
+            } else { str = str + ", "; }
+            if (exists(current.left)) q.unshift(current.left);
+            if (exists(current.right)) q.unshift(current.right);
+            counter += 1;
+        }
     }
     str = str.slice(0, -2);
     console.log(str);

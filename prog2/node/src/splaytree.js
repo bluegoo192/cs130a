@@ -88,6 +88,9 @@ function Splaytree() {
         }
         return largest;
     }
+    this.detailedPrint = function() {
+        console.log(this.root);
+    }
 }
 
 module.exports = Splaytree

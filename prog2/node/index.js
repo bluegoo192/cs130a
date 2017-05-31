@@ -16,4 +16,5 @@ rl.on('line', function(line) {
     if (words[0] === "find") console.log(tree.find(parseInt(words[1], 10)));
     if (words[0] === "delete") console.log(tree.delete(parseInt(words[1], 10)));
     if (words[0] === "print") tree.print();
+    if (words[0] === "dprint") tree.detailedPrint();
 })
