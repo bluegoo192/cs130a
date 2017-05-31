@@ -1,0 +1,13 @@
+item 1 inserted
+item 1 found
+item 3 not inserted ; already present
+item 5 not inserted ; already present
+item 2 not inserted ; already present
+item 6 not inserted ; already present
+item 6 not inserted ; already present
+item 7 not deleted ; not present
+item 1 deleted
+
+3
+2, 6
+5

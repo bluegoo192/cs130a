@@ -182,6 +182,7 @@ public class SplayBST<Key extends Comparable<Key>, Value>  {
                 if (current.right != null) q.add(current.right);
             }
         }
+        System.out.println();
     }
 
     public String dprint(Node n) {
@@ -245,7 +246,10 @@ public class SplayBST<Key extends Comparable<Key>, Value>  {
             if (words[0].equals("insert")) System.out.println(tree.put(Integer.parseInt(words[1]), Integer.parseInt(words[1])));
             if (words[0].equals("find")) System.out.println(tree.get(Integer.parseInt(words[1])));
             if (words[0].equals("delete")) System.out.println(tree.remove(Integer.parseInt(words[1])));
-            if (words[0].equals("print")) tree.print();
+            if (words[0].equals("print")) {
+                tree.print();
+                return;
+            }
             if (words[0].equals("dprint")) System.out.println(tree.dprint(tree.root));
             command = in.nextLine();
         }
