@@ -233,14 +233,14 @@ public class SplayBST<Key extends Comparable<Key>, Value>  {
         SplayBST<Integer, Integer> tree = new SplayBST<Integer, Integer>();
         Scanner in = new Scanner(System.in);
         String command = in.nextLine();
-        tree.put(1,1);
+        /*tree.put(1,1);
         tree.put(3,3);
         tree.put(5,5);
         tree.put(2,2);
         tree.put(6,6);
         tree.put(6,6);
         tree.remove(7);
-        tree.remove(1);
+        tree.remove(1);*/
         while (command != null) {
             String[] words = command.split(" ");
             if (words[0].equals("insert")) System.out.println(tree.put(Integer.parseInt(words[1]), Integer.parseInt(words[1])));
